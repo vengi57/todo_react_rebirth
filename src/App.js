@@ -6,11 +6,17 @@ import { v4 as uuidv4 } from "uuid";
 const LOCAL_STORAGE_KEY = "todo_list";
 
 const App = () => {
-  const getItem = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-
   const [taskList, updateTaskList] = useState([]);
-
   const getInputRef = useRef();
+
+  useEffect(() => {
+    const storedTaskList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    updateTaskList(storedTaskList);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(taskList));
+  }, [taskList]);
 
   const hadleChangeCheckbox = (id) => {
     const newTaskList = [...taskList];
